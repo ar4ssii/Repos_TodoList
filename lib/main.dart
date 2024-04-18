@@ -7,7 +7,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   await Hive.openBox<String>('todos');
-  runApp(MaterialApp(home: MyApp()));
+  runApp(MaterialApp(home: MyApp(),
+    debugShowCheckedModeBanner: false
+  ));
 }
 
 class MyApp extends StatefulWidget {
@@ -28,6 +30,7 @@ class _MyAppState extends State<MyApp> {
     TextEditingController todoController = TextEditingController();
     showDialog(
       context: context,
+
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Add Todo'),
@@ -65,7 +68,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFFADBC9F),
+        backgroundColor: Color(0xFF53E1DA),
         title: Text('ToDo List'),
         centerTitle: true,
       ),
@@ -73,7 +76,12 @@ class _MyAppState extends State<MyApp> {
         valueListenable: todoBox.listenable(),
         builder: (context, Box<String> box, _) {
           if (box.values.isEmpty) {
-            return Center(child: Text("No Data"));
+            return Center(
+              child: Image.network(
+                'https://media1.tenor.com/m/vInNJ7nrv2kAAAAd/nope-rocket.gif', // Replace with your image URL
+                fit: BoxFit.cover,
+              ),
+            );
           }
           return ListView.builder(
             itemCount: box.length,
